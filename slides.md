@@ -293,7 +293,283 @@ count.value++ // UI updates automatically!
 - Changing `count.value` triggers the DOM to update wherever it's used.
 </div>
 
+---
+transition: fade
+clicks: 2
+---
 
+# `reactive` vs `ref` in Vue
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+## Using `reactive`
+
+```js
+import { reactive } from 'vue'
+
+const state = reactive({
+  count: 0,
+  message: 'Hello'
+})
+
+// Usage
+state.count++
+state.message = 'Hi!'
+```
+
+- `reactive` is used for making entire objects reactive (including arrays).
+
+</div>
+
+<div v-click="2">
+
+## Difference between `ref` and `reactive`
+
+- **`ref`**: Makes a single value (primitive or object) reactive.  
+  Access the value with `.value`.
+- **`reactive`**: Makes an entire object or array reactive.  
+  Access properties directly (no `.value` needed).
+- Use `ref` for primitives or when you want to wrap a single value.  
+- Use `reactive` for objects with multiple properties.
+</div>
+</div>
+
+---
+transition: fade
+clicks: 4
+---
+
+# Built-in Directives
+
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+## `v-bind`
+- Dynamically binds an attribute to an expression.
+```html
+<img v-bind:src="imageUrl" />
+<!-- Shorthand: -->
+<img :src="imageUrl" />
+```
+</div>
+
+<div v-click="2">
+
+## `v-text`
+- Updates the element’s `textContent` with the value of an expression.
+```html
+<span v-text="message"></span>
+<!-- Equivalent to: -->
+<span>{{ message }}</span>
+```
+</div>
+
+<div v-click="3">
+
+## `v-html`
+- Updates the element’s `innerHTML` with the value of an expression (renders raw HTML).
+```html
+<div v-html="rawHtml"></div>
+```
+**Caution:** Only use with trusted content.
+</div>
+
+<div v-click="4">
+
+## `v-show`
+- Conditionally shows or hides an element by toggling its CSS `display` property.
+```html
+<p v-show="isVisible">Is visible if isVisible is true</p>
+```
+
+</div>
+</div>
+
+
+---
+transition: fade
+clicks: 3
+---
+
+# Conditional Rendering in Vue
+
+<div v-click="1">
+
+### `v-if`  Renders the element only if the condition is true.
+```html
+<p v-if="isLoggedIn">Welcome back!</p>
+```
+</div>
+<br>
+<div v-click="2">
+
+### `v-else` Renders the element if the previous `v-if` condition is false.
+```html
+<p v-if="isLoggedIn">Welcome back!</p>
+<p v-else>Please log in.</p>
+```
+</div>
+<br>
+<div v-click="3">
+
+### `v-else-if` Checks another condition if the previous `v-if` is false.
+```html
+<p v-if="score > 90">Excellent!</p>
+<p v-else-if="score > 60">Good job!</p>
+<p v-else>Keep trying!</p>
+```
+</div>
+
+---
+transition: fade
+clicks: 1
+---
+
+# Looping
+
+<div v-click="1">
+
+## Using `v-for`
+- `v-for` is used to render a list of items by looping over an array.
+
+```html
+<ul>
+  <li v-for="item in items" :key="item.id">
+    {{ item.name }}
+  </li>
+</ul>
+```
+
+- `:key` helps Vue efficiently update each item.
+
+
+
+```js
+import { ref } from 'vue'
+
+const items = ref([
+  { id: 1, name: 'Apple' },
+  { id: 2, name: 'Banana' },
+  { id: 3, name: 'Cherry' }
+])
+```
+
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Disabling Re-render
+
+<div v-click="1">
+
+## Why Disable Re-render?
+- Sometimes you want to prevent Vue from updating a part of the DOM, even if reactive data changes.
+- Useful for static content or optimizing performance in specific cases.
+
+</div>
+<br>
+<div v-click="2">
+
+## Using `v-once`
+
+- The `v-once` directive renders the element and component **only once** and skips future re-renders.
+
+```html
+<p v-once>This will never update: {{ count }}</p>
+```
+
+- No matter how `count` changes, the content will not update after the initial render.
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Working with Events in Vue
+<div grid="~ cols-2 gap-5">
+
+<div v-click="1">
+
+## Listening to Events
+
+- Use the `v-on` directive (or `@` shorthand) to listen for DOM events.
+
+```html
+<button @click="increment">Add</button>
+```
+
+```js
+import { ref } from 'vue'
+const count = ref(0)
+function increment() {
+  count.value++
+}
+```
+
+</div>
+
+<div v-click="2">
+
+## Passing Event Data
+
+- You can access the event object or pass arguments:
+
+```html
+<input @input="onInput($event)" />
+<button @click="sayHello('Vue')">Say Hello</button>
+```
+
+```js
+function onInput(event) {
+  console.log(event.target.value)
+}
+function sayHello(name) {
+  alert(`Hello, ${name}!`)
+}
+```
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Forms and `v-model` in Vue
+
+<div v-click="1">
+
+## Two-way Binding with `v-model`
+
+- `v-model` creates a two-way binding between form inputs and your data.
+
+```html
+<input v-model="name" placeholder="Enter your name" />
+<p>Hello, {{ name }}!</p>
+```
+
+- When the input changes, `name` updates automatically, and vice versa.
+
+</div>
+<br>
+<div v-click="2">
+
+## Example with Multiple Inputs
+
+```html
+<input v-model="email" placeholder="Email" />
+<input type="checkbox" v-model="subscribe" /> Subscribe
+<p>Email: {{ email }}</p>
+<p>Subscribed: {{ subscribe }}</p>
+```
+
+- Works with text, checkbox, radio, select, and textarea elements.
+
+</div>
 ---
 transition: fade
 clicks: 2
