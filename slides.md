@@ -25,10 +25,7 @@ clicks: 3
 
 <div grid="~ cols-2 gap-4">
 <Transition name="fade">
-<div v-click ="1" v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :leave="{ x: 80 }" >
+<div v-click ="1" >
 
 <!-- 1st click: Progressive -->
 - 📈 **Progressive** 
@@ -37,10 +34,7 @@ clicks: 3
   - Modular adoption
 </div>
 </Transition>
-<div v-click="2" v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :leave="{ x: 80 }">
+<div v-click="2" >
 
 <!-- 2nd click: JavaScript -->
 - 💻 **JavaScript** 
@@ -50,10 +44,7 @@ clicks: 3
 </div>
 </div>
 
-<div v-click="3" v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :leave="{ x: 80 }">
+<div v-click="3" >
 
 <!-- 3rd click: Framework -->
 - 🛠 **Framework**  
@@ -179,10 +170,7 @@ clicks: 2
 # Setting Up for Vue Development
 <div grid="~ cols-2 gap-5">
 
-  <div v-click="1" v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :leave="{ x: 80 }">
+  <div v-click="1" >
 
   ## Extensions for VS Code
 
@@ -197,7 +185,7 @@ clicks: 2
   </div>
 
 
-  <div v-click="2" v-motion :initial="{ x: -80 }" :enter="{ x: 0 }" :leave="{ x: 80 }" >
+  <div v-click="2" >
 
   ## Additional Tips for VS Code
 
@@ -224,7 +212,7 @@ clicks: 2
 # Setting Up a Vue Project from Scratch
 <div grid="~ cols-2 gap-5">
 
-<div v-click="1"  v-motion :initial="{ x: -80 }" :enter="{ x: 0 }" :leave="{ x: 80 }">
+<div v-click="1" >
 
 ## 1. Install Node.js
 
@@ -244,7 +232,7 @@ npm create vue@latest
 - This will scaffold a new Vue 3 project in a folder you specify.
 
 </div>
-<div v-click="2"  v-motion :initial="{ x: -80 }" :enter="{ x: 0 }" :leave="{ x: 80 }">
+<div v-click="2"  >
 
 ## 3. Start the Development Server
 
@@ -290,6 +278,7 @@ import { ref } from 'vue'
 const count = ref(0)
 count.value++ // UI updates automatically!
 ```
+
 - Changing `count.value` triggers the DOM to update wherever it's used.
 </div>
 
@@ -371,6 +360,7 @@ clicks: 4
 ```html
 <div v-html="rawHtml"></div>
 ```
+
 **Caution:** Only use with trusted content.
 </div>
 
@@ -570,6 +560,97 @@ clicks: 2
 - Works with text, checkbox, radio, select, and textarea elements.
 
 </div>
+
+---
+transition: fade
+clicks: 3
+---
+
+# Class Binding
+<div grid="~ cols-2 gap-5">
+<div>
+<div v-click="1">
+
+### Object Syntax
+
+- Bind classes conditionally using an object.
+- The key is the class name, the value is a boolean.
+
+```html
+<div :class="{ active: isActive, 'text-large': isLarge }">
+  Object syntax example
+</div>
+```
+
+</div>
+<br>
+<div v-click="2">
+
+### Array Syntax
+
+- Bind multiple classes using an array.
+- Each entry can be a string or an object.
+
+```html
+<div :class="[baseClass, isActive ? 'active' : '', { 'text-large': isLarge }]">
+  Array syntax example
+</div>
+```
+
+</div>
+</div>
+<div v-click="3">
+
+### String Syntax
+
+- Bind a single class or multiple classes as a space-separated string.
+
+```html
+<div :class="`btn ${isPrimary ? 'btn-primary' : 'btn-secondary'}`">
+  String syntax example
+</div>
+```
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Style Binding
+
+<div v-click="1">
+
+### Object Syntax
+
+- The key is the CSS property, the value is a variable or expression.
+
+```html
+<div :style="{ color: activeColor, fontSize: size + 'px' }">
+  Object style binding example
+</div>
+```
+
+</div>
+<br>
+<div v-click="2">
+
+### Array & String Syntax
+
+- Bind multiple style objects or use a string for inline styles.
+
+```html
+<div :style="[baseStyles, overrideStyles]">
+  Array style binding example
+</div>
+
+<div :style="'background: yellow; color: blue;'">
+  String style binding example
+</div>
+```
+
+</div>
 ---
 transition: fade
 clicks: 2
@@ -597,8 +678,53 @@ const double = computed(() => count.value * 2)
 
 count.value++ // double.value is now 2
 ```
+
 - Here, `double` will always reflect twice the value of `count`
 </div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Watchers
+
+<div v-click="1">
+
+## What is a Watcher?
+
+- A watcher lets you run custom code in response to changes in a reactive value or computed property.
+- Useful for side effects like API calls, logging, or reacting to user input.
+
+</div>
+<br>
+<div v-click="2">
+
+## Using `watch`
+
+```js
+import { ref, watch } from 'vue'
+
+const count = ref(0)
+
+watch(count, (newValue, oldValue) => {
+  console.log(`Count changed from ${oldValue} to ${newValue}`)
+})
+```
+
+- The callback runs every time `count.value` changes.
+- You can also watch multiple sources or use options like `immediate` and `deep`.
+
+</div>
+
+---
+transition: fade
+---
+
+# Thank You!
+
+- For the assignment, please refer to [this link](https://shreyasp-kott.github.io/Who-pays-the-bill/).
+- Happy learning and coding with Vue! 🚀
 
 
 
