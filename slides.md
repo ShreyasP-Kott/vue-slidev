@@ -769,7 +769,7 @@ clicks: 2
 
 <div v-click="1">
 
-## Why Use Scoped Styles?
+### Why Use Scoped Styles?
 
 - By default, styles in a Vue component apply globally.
 - Adding the `scoped` attribute to the `<style>` tag ensures styles only apply to that component.
@@ -777,8 +777,9 @@ clicks: 2
 </div>
 
 <div v-click="2">
+<br>
 
-## Example
+### Example
 
 ```vue
 <template>
@@ -838,8 +839,8 @@ const props = defineProps({
 
 <template>
   <div>
-    <h2>{{ props.name }}</h2>
-    <p>Age: {{ props.age }}</p>
+    <h2>{{ name }}</h2>
+    <p>Age: {{ age }}</p>
   </div>
 </template>
 ```
@@ -848,11 +849,166 @@ const props = defineProps({
 
 ---
 transition: fade
+clicks: 3
+---
+
+# Emitting Events to Change Props
+<div grid="~ cols-2 gap-5">
+
+<div v-click="1">
+  <div >
+
+### Why Emit Events?
+
+- Props are **one-way**: parent ➡️ child.
+- To update a prop value, the child **emits an event** and the parent updates the value.
+
+
+### Example
+
+```vue
+<!-- Child Component (`CounterButton.vue`) -->
+<script setup>
+const props = defineProps({ count: Number })
+const emit = defineEmits(['update:count'])
+function increment() {
+  emit('update:count', props.count + 1)
+}
+</script>
+<template>
+  <button @click="increment">Clicked {{ count }} times</button>
+</template>
+```
+  
+  </div>
+</div>
+
+<div v-click="2">
+
+```vue
+<!-- Parent Component -->
+<script setup>
+import { ref } from 'vue'
+import CounterButton from './CounterButton.vue'
+
+const count = ref(0)
+</script>
+
+<template>
+  <CounterButton :count="count" @update:count="count = $event" />
+</template>
+```
+
+- The child emits `update:count` with the new value.
+- The parent listens and updates its state.
+
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Passing a Function Prop to Update Parent State
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+- Sometimes, instead of emitting events, you can pass a function from the parent to the child.
+- The child calls this function to update the parent's state directly.
+
+```vue
+<!-- Parent Component -->
+<script setup>
+import { ref } from 'vue'
+import CounterButton from './CounterButton.vue'
+
+const count = ref(0)
+function increment() {
+  count.value++
+}
+</script>
+
+<template>
+  <CounterButton :count="count" :onIncrement="increment" />
+</template>
+```
+</div>
+
+<div v-click="2">
+
+```vue
+<!-- Child Component (`CounterButton.vue`) -->
+<script setup>
+const props = defineProps({
+  count: Number,
+  onIncrement: Function
+})
+</script>
+
+<template>
+  <button @click="onIncrement">Clicked {{ count }} times</button>
+</template>
+```
+
+- The parent passes its `increment` function as a prop.
+- The child calls `onIncrement()` to update the parent's value.
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+### Vue Component Lifecycles
+<div grid="~ cols-2 gap-5">
+
+<div v-click="1">
+
+| Hook                | When it Runs                                 |
+|---------------------|----------------------------------------------|
+| `onBeforeMount`     | Before the component is mounted to the DOM   |
+| `onMounted`         | After the component is mounted               |
+| `onBeforeUpdate`    | Before reactive data causes a re-render      |
+| `onUpdated`         | After the DOM is updated                     |
+| `onBeforeUnmount`   | Before the component is unmounted            |
+| `onUnmounted`       | After the component is unmounted             |
+
+</div>
+<div v-click="2">
+
+### Example Usage
+
+```vue
+<script setup>
+import { onMounted, onUpdated, onUnmounted } from 'vue'
+
+onMounted(() => {
+  console.log('Component mounted!')
+})
+
+onUpdated(() => {
+  console.log('Component updated!')
+})
+
+onUnmounted(() => {
+  console.log('Component unmounted!')
+})
+</script>
+```
+
+- Use these hooks to fetch data, set up timers, clean up, etc.
+
+</div>
+</div>
+---
+transition: fade
 ---
 
 # Thank You!
 
-- For the assignment, please refer to [this link](https://shreyasp-kott.github.io/Who-pays-the-bill/).
+<!-- - For the assignment, please refer to [this link](https://shreyasp-kott.github.io/Who-pays-the-bill/). -->
 - Happy learning and coding with Vue! 🚀
 
 
