@@ -719,6 +719,48 @@ watch(count, (newValue, oldValue) => {
 
 ---
 transition: fade
+clicks: 2
+---
+
+# Registering Components in Vue
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+### 1. **Global Registration**
+
+- Register a component globally so it can be used anywhere in your app.
+
+```js
+import { createApp } from 'vue'
+import MyComponent from './MyComponent.vue'
+
+const app = createApp(App)
+app.component('MyComponent', MyComponent)
+app.mount('#app')
+```
+
+</div>
+<div v-click="2">
+
+### 2. Local Registration with `<script setup>`
+
+
+- In Vue 3 with `<script setup>`, just import your component and use it in the template—no need to register in a `components` option.
+
+```vue
+<script setup>
+import MyComponent from './MyComponent.vue'
+</script>
+
+<template>
+  <MyComponent />
+</template>
+```
+
+</div>
+</div>
+---
+transition: fade
 ---
 
 # Thank You!
