@@ -759,6 +759,93 @@ import MyComponent from './MyComponent.vue'
 
 </div>
 </div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Scoped Styles in Vue
+
+<div v-click="1">
+
+## Why Use Scoped Styles?
+
+- By default, styles in a Vue component apply globally.
+- Adding the `scoped` attribute to the `<style>` tag ensures styles only apply to that component.
+
+</div>
+
+<div v-click="2">
+
+## Example
+
+```vue
+<template>
+  <p class="red-text">This is red only in this component!</p>
+</template>
+
+<style scoped>
+.red-text {
+  color: red;
+}
+</style>
+```
+
+- The `.red-text` style will not affect elements in other components
+
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Passing Props in Vue
+<div grid="~ cols-2 gap-5">
+
+<div v-click="1">
+
+### Passing Props to a Component
+
+- Use attributes to pass data from a parent to a child component.
+
+```html
+<!-- ParentComponent.vue -->
+<UserCard :name="userName" :age="userAge" />
+```
+<br>
+<br>
+<br>
+
+- Now `UserCard` receives and uses the `name` and `age` props from its parent.
+</div>
+
+<div v-click="2">
+
+### Defining Props in the Child Component
+
+- In the child, define props using the `defineProps` macro with `<script setup>`:
+
+```vue
+<!-- UserCard.vue -->
+<script setup>
+const props = defineProps({
+  name: String,
+  age: Number
+})
+</script>
+
+<template>
+  <div>
+    <h2>{{ props.name }}</h2>
+    <p>Age: {{ props.age }}</p>
+  </div>
+</template>
+```
+</div>
+</div>
+
 ---
 transition: fade
 ---
