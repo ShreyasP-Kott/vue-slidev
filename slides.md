@@ -849,7 +849,7 @@ const props = defineProps({
 
 ---
 transition: fade
-clicks: 3
+clicks: 2
 ---
 
 # Emitting Events to Change Props
@@ -1000,6 +1000,325 @@ onUnmounted(() => {
 
 - Use these hooks to fetch data, set up timers, clean up, etc.
 
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Provide & Inject in Vue
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+### What is Provide & Inject?
+
+- `provide` and `inject` are used to share data between a parent and its descendants, skipping intermediate components.
+- Useful for passing down global data like themes, user info, or configuration without prop drilling.
+
+</div>
+
+<div v-click="2">
+
+### Example Usage
+
+```vue
+<!-- ParentComponent.vue -->
+<script setup>
+import { provide } from 'vue'
+provide('theme', 'dark')
+</script>
+```
+
+```vue
+<!-- DeepChild.vue -->
+<script setup>
+import { inject } from 'vue'
+const theme = inject('theme')
+</script>
+<template>
+  <div>Current theme: {{ theme }}</div>
+</template>
+```
+
+- The `theme` value is available to any descendant that calls `inject('theme')`, no matter how deep in the component tree.
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Slots in Vue
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+## What are Slots?
+
+- Slots allow you to pass content from a parent component into a child component.
+- Useful for creating reusable and flexible components.
+
+```html
+<!-- BaseLayout.vue -->
+<template>
+  <header>Header</header>
+  <slot></slot>
+  <footer>Footer</footer>
+</template>
+```
+</div>
+
+<div v-click="2">
+
+## Using Slots
+
+```vue
+<!-- ParentComponent.vue -->
+<BaseLayout>
+  <main>
+    <h1>Hello from the parent!</h1>
+  </main>
+</BaseLayout>
+```
+
+- The content inside `<BaseLayout>` replaces the `<slot></slot>` in the child.
+- You can also use **named slots** and **scoped slots** for more advanced use cases.
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Working with Forms in Vue
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+- Use `v-model` to bind form input values to reactive data.
+
+```html
+<input v-model="username" placeholder="Enter your username" />
+<p>Your username: {{ username }}</p>
+```
+
+- Changes in the input update `username`, and vice versa.
+
+</div>
+
+<div v-click="2">
+
+#### Handling Form Submission
+
+```vue
+<script setup>
+import { ref } from 'vue'
+const email = ref('')
+function submitForm() {
+  alert(`Submitted: ${email.value}`)
+}
+</script>
+<template>
+  <form @submit.prevent="submitForm">
+    <input v-model="email" placeholder="Email" />
+    <button type="submit">Submit</button>
+  </form>
+</template>
+```
+
+- Use `@submit.prevent` to handle form submission and prevent page reload.
+- Combine `v-model` with methods for full form handling.
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+## Form Validation with vee-validate in Vue
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+### What is vee-validate?
+
+- **vee-validate** is a popular library for form validation in Vue 3.
+- It provides easy-to-use validation rules and error handling for forms.
+
+
+- Use `useForm` and `useField` to manage form state and validation.
+- Display error messages using the `errors` object.
+</div>
+
+<div v-click="2">
+
+```vue
+<script setup>
+import { useField, useForm } from 'vee-validate'
+import { required, email } from '@vee-validate/rules'
+
+const { handleSubmit, errors } = useForm()
+const { value: emailValue } = useField('email', email)
+const { value: nameValue } = useField('name', required)
+
+const onSubmit = handleSubmit(values => {
+  alert(JSON.stringify(values))
+})
+</script>
+
+<template>
+  <form @submit.prevent="onSubmit">
+    <input v-model="nameValue" placeholder="Name" />
+    <span>{{ errors.name }}</span>
+    <input v-model="emailValue" placeholder="Email" />
+    <span>{{ errors.email }}</span>
+    <button type="submit">Submit</button>
+  </form>
+</template>
+```
+
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+## Installing and Using Vue Router
+<div grid="~ cols-2 gap-5">
+<div v-click="1">
+
+**Install Vue Router**
+
+Open your terminal in your project folder and run:
+
+```sh
+npm install vue-router@4
+```
+
+**Create a `router.js` file:**
+
+```js
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from './components/Home.vue'
+import About from './components/About.vue'
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About }
+]
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+```
+</div>
+
+<div v-click="2">
+
+**Update your `main.js`:**
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+import { router } from './router'
+
+createApp(App).use(router).mount('#app')
+```
+
+- Now use `<router-link>` and `<router-view>` in your components to enable navigation.
+</div>
+</div>
+
+---
+transition: fade
+clicks: 2
+---
+
+# Using `<router-link>` and `<router-view>` in Vue
+<div grid="~ cols-2 gap-5">
+
+<div v-click="1">
+
+## Navigation with `<router-link>`
+
+- Use `<router-link>` to create navigation links that work with Vue Router.
+
+```html
+<router-link to="/">Home</router-link>
+<router-link to="/about">About</router-link>
+```
+
+- This prevents full page reloads and enables SPA navigation.
+
+</div>
+
+<div v-click="2">
+
+## Displaying Route Content with `<router-view>`
+
+- Place `<router-view>` in your main layout or App.vue to render the matched component for the current route.
+
+```html
+<template>
+  <nav>
+    <router-link to="/">Home</router-link>
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view />
+</template>
+```
+
+- The component for the current route will be displayed where `<router-view />` is placed.
+</div>
+</div>
+
+---
+transition: fade
+---
+
+### More Topics for Self-Learning
+<div grid="~ cols-2 gap-5">
+<div>
+
+- **Teleport**  
+  Render content outside the current component hierarchy (e.g., modals, tooltips).
+
+- **Dynamic & Async Components**  
+  Load components dynamically or asynchronously for better performance.
+
+- **Custom Directives**  
+  Create your own directives for reusable DOM behavior.
+
+- **Mixins & Composables**  
+  Reuse logic across components using mixins or the Composition API's composables.
+
+
+- **Error Handling**  
+  Global error boundaries and errorCaptured hook.
+</div>
+<div>
+
+- **Testing Vue Apps**  
+  Unit and end-to-end testing with tools like Vue Test Utils and Cypress.
+
+- **Vuex & Pinia**  
+  Advanced state management solutions.
+
+- **Internationalization (i18n)**  
+  Supporting multiple languages in your app.
+
+- **Accessibility (a11y)**  
+  Making your Vue apps accessible to all users.
+
+- **Performance Optimization**  
+  Lazy loading, code splitting, and optimizing reactivity.
+
+> Explore the [Vue 3 documentation](https://vuejs.org/guide/introduction.html) for deep dives into these topics.
 </div>
 </div>
 ---
